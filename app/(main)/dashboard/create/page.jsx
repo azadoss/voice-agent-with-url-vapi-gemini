@@ -16,7 +16,7 @@ function CreateAgent() {
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
 
-    console.log("formData", formData)
+    // console.log("formData", formData)
   }
 
   const onGoToNext = () => {

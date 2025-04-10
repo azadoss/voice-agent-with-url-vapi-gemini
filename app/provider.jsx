@@ -54,7 +54,7 @@ function Provider({ children }) {
                 console.error('User creation error:', error.message);
             }
 
-            console.log('Auth User:', authUser); // Inspect the structure
+            // console.log('Auth User:', authUser); // Inspect the structure
         };
 
         // Listen for auth state changes
