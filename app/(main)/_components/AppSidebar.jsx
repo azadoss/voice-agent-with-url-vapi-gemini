@@ -1,3 +1,4 @@
+'use client'
 import { Button } from "@/components/ui/button";
 import {
   Sidebar,
@@ -15,8 +16,19 @@ import { Plus } from "lucide-react";
 import Image from "next/image";
 import { SideBarOptions } from "@/services/Constants";
 import Link from "next/link";
+import { ChevronUp, User2 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { usePathname } from "next/navigation";
 
 export function AppSidebar() {
+  const path = usePathname();
+  console.log(path);
+
   return (
     <Sidebar>
       <SidebarHeader className="flex">
@@ -35,15 +47,15 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-        <SidebarGroupLabel>Application</SidebarGroupLabel>
-        <SidebarGroupContent>
+          {/* <SidebarGroupLabel className="p-2">Application</SidebarGroupLabel> */}
+          <SidebarGroupContent>
             <SidebarMenu>
               {SideBarOptions.map((option) => (
-                <SidebarMenuItem key={option.label}>
-                  <SidebarMenuButton asChild>
+                <SidebarMenuItem key={option.label} className="p-1">
+                  <SidebarMenuButton asChild className={`p-2 ${path === option.path ? "bg-muted text-white" : ""}`}>
                     <Link href={option.path}>
-                    <option.icon />
-                    <span>{option.label}</span>
+                      <option.icon className={`${path === option.path ? "text-primary" : ""}`}/>
+                      <span className={`text-lg ${path === option.path ? "text-primary" : ""}`}>{option.label}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -52,7 +64,34 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton>
+                  <User2 /> Username
+                  <ChevronUp className="ml-auto" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="top"
+                className="w-[--radix-popper-anchor-width]"
+              >
+                <DropdownMenuItem>
+                  <span>Account</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <span>Billing</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <span>Sign out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }

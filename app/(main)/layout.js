@@ -1,15 +1,14 @@
-import React from 'react'
-import DashboardProvider from './provider'
+import React from "react";
+import DashboardProvider from "./provider";
 
-
-function DashboardLayout({children}) {
+function DashboardLayout({ children }) {
   return (
     <div>
-    <DashboardProvider>
-        {children}
-    </DashboardProvider>
+      <DashboardProvider>
+        <div>{children}</div>
+      </DashboardProvider>
     </div>
-  )
+  );
 }
 
-export default DashboardLayout
+export default DashboardLayout;
