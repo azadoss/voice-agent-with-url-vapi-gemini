@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { AgentType } from "@/services/Constants";
 import { useState, useEffect } from "react";
 
-function FormContainer({ handleInputChange }) {
+function FormContainer({ handleInputChange, GoToNext }) {
   const [selectedType, setSelectedType] = useState([]);
 
   useEffect(() => {
@@ -22,12 +22,12 @@ function FormContainer({ handleInputChange }) {
   }, [selectedType]);
 
   const AddSelectedType = (type) => {
-    const data=selectedType.includes(type);
-    if(!data){
+    const data = selectedType.includes(type);
+    if (!data) {
       setSelectedType((prev) => [...prev, type]);
-    }else{
-     const result=selectedType.filter(item => item!=type);
-     setSelectedType(result);
+    } else {
+      const result = selectedType.filter((item) => item != type);
+      setSelectedType(result);
     }
     console.log("selectedType", selectedType);
   };
@@ -35,12 +35,12 @@ function FormContainer({ handleInputChange }) {
   return (
     <div className="mt-5 p-6 bg-muted rounded-sm space-y-8">
       <div>
-        <h2 className="text-sm font-medium">Agent Name</h2>
+        <h2 className="text-sm font-medium">Title</h2>
         <Input
           type="text"
-          placeholder="Enter Agent Name"
+          placeholder="Enter Agent title"
           className="mt-2"
-          onChange={(event) => handleInputChange("name", event.target.value)}
+          onChange={(event) => handleInputChange("title", event.target.value)}
         />
       </div>
       <div>
@@ -71,11 +71,15 @@ function FormContainer({ handleInputChange }) {
       <div>
         <h2 className="text-sm font-medium">Select Agent Type</h2>
         <div className="flex flex-wrap gap-3 mt-2">
-          {AgentType.map((type) => (
+          {AgentType.map((type, index) => (
             <div
-              key={type.label}
-              className={`flex cursor-pointer items-center gap-2 p-1 px-2 rounded-sm border border-border bg-muted-foreground/10 hover:bg-muted-foreground/30 transition-all duration-200 ${selectedType.includes(type.value) ? "bg-muted-foreground/50" : ""}`}
-              onClick={() => AddSelectedType(type.value)}
+              key={index}
+              className={`flex cursor-pointer items-center gap-2 p-1 px-2 rounded-sm border border-border bg-muted-foreground/10 hover:bg-muted-foreground/30 transition-all duration-200 ${
+                selectedType.includes(type.label)
+                  ? "bg-muted-foreground/50"
+                  : ""
+              }`}
+              onClick={() => AddSelectedType(type.label)}
             >
               <type.icon className="w-4 h-4" />
               <span className="text-sm">{type.label}</span>
@@ -83,7 +87,7 @@ function FormContainer({ handleInputChange }) {
           ))}
         </div>
       </div>
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-center mt-10" onClick={() => GoToNext()}>
         <Button className="w-1/3">Create Agent</Button>
       </div>
     </div>
