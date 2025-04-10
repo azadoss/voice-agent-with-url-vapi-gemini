@@ -13,6 +13,7 @@ function QuestionList({ formData }) {
   const [loading, setLoading] = useState(true);
   const [questionList, setQuestionList] = useState([]);
   const user = useUser();
+  const [saveLoading, setSaveLoading] = useState(false);
 
   useEffect(() => {
     if (formData) {
@@ -43,6 +44,7 @@ function QuestionList({ formData }) {
   };
 
   const onFinish = async () => {
+    setSaveLoading(true);
     const agent_id = uuidv4();
     const { data, error } = await supabase
       .from("Agents")
@@ -56,7 +58,8 @@ function QuestionList({ formData }) {
       ])
       .select()
 
-      console.log("Agent created", data);
+      setSaveLoading(false);
+      
   };
 
   return (
@@ -76,8 +79,10 @@ function QuestionList({ formData }) {
         <QuestionListContainer questionList={questionList} />
       )}
 
-      <div className="flex justify-end w-1/3 mt-8">
-        <Button onClick={() => onFinish()}>Finish</Button>
+      <div className="flex justify-end mt-8">
+        <Button onClick={() => onFinish()} disabled={saveLoading}>
+        {saveLoading&&<Loader2Icon className="animate-spin mr-2"/>}
+        Finish</Button>
       </div>
     </div>
   );
