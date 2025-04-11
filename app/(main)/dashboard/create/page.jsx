@@ -11,7 +11,7 @@ import AgentLink from "./_components/AgentLink";
 
 function CreateAgent() {
   const router = useRouter();
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = useState();
   const [agentId, setAgentId] = useState();
 

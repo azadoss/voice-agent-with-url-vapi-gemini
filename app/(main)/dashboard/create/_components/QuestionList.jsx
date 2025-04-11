@@ -58,11 +58,11 @@ function QuestionList({ formData, onCreateLink }) {
       ])
       .select()
 
-      setSaveLoading(false);
+    setSaveLoading(false);
 
-      // Passing Agent link to parent component
-      onCreateLink(agent_id);
-      
+    // Passing Agent link to parent component. Can be used to redirect to agent link page or agent title
+    onCreateLink(agent_id);
+
   };
 
   return (
@@ -84,8 +84,8 @@ function QuestionList({ formData, onCreateLink }) {
 
       <div className="flex justify-end mt-8">
         <Button onClick={() => onFinish()} disabled={saveLoading}>
-        {saveLoading&&<Loader2Icon className="animate-spin mr-2"/>}
-        Create Agent Link</Button>
+          {saveLoading && <Loader2Icon className="animate-spin mr-2" />}
+          Next</Button>
       </div>
     </div>
   );
