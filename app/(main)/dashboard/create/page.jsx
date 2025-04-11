@@ -7,17 +7,19 @@ import { useRouter } from "next/navigation";
 import FormContainer from "./_components/FormContainer";
 import QuestionList from "./_components/QuestionList";
 import { toast } from "sonner";
+import AgentLink from "./_components/AgentLink";
 
 function CreateAgent() {
   const router = useRouter();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   const [formData, setFormData] = useState();
+  const [agentId, setAgentId] = useState();
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
 
     // console.log("formData", formData)
-  }
+  };
 
   const onGoToNext = () => {
     if (
@@ -37,6 +39,11 @@ function CreateAgent() {
     setStep(step + 1);
   };
 
+  const onCreateLink = (agent_id) => {
+    setAgentId(agent_id);
+    setStep(step + 1);
+  };
+
   return (
     <div className="mt-10 px-10 md:px-24 lg:px-44 xl:px-56">
       <div className="flex gap-5 items-center">
@@ -53,7 +60,11 @@ function CreateAgent() {
           GoToNext={() => onGoToNext()}
         />
       ) : step === 2 ? (
-        <QuestionList formData={formData} />
+        <QuestionList formData={formData} onCreateLink={(agent_id)=>onCreateLink(agent_id)} />
+      ) : step == 3 ? (
+        <AgentLink agent_id={agentId}
+          formData={formData}
+        />
       ) : null}
     </div>
   );

@@ -9,7 +9,7 @@ import { supabase } from "@/services/supabaseClient";
 import { v4 as uuidv4 } from 'uuid';
 import { useUser } from '@/app/provider'
 
-function QuestionList({ formData }) {
+function QuestionList({ formData, onCreateLink }) {
   const [loading, setLoading] = useState(true);
   const [questionList, setQuestionList] = useState([]);
   const user = useUser();
@@ -59,6 +59,9 @@ function QuestionList({ formData }) {
       .select()
 
       setSaveLoading(false);
+
+      // Passing Agent link to parent component
+      onCreateLink(agent_id);
       
   };
 
@@ -82,7 +85,7 @@ function QuestionList({ formData }) {
       <div className="flex justify-end mt-8">
         <Button onClick={() => onFinish()} disabled={saveLoading}>
         {saveLoading&&<Loader2Icon className="animate-spin mr-2"/>}
-        Finish</Button>
+        Create Agent Link</Button>
       </div>
     </div>
   );
