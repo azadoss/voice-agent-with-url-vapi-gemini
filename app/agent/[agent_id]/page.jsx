@@ -1,18 +1,14 @@
 'use client'
 import Image from 'next/image'
-import React, { use } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Spline from '@splinetool/react-spline'
-import { Clock, Info } from "lucide-react";
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { useParams } from 'next/navigation'
-import { useEffect } from 'react'
-import { useState } from 'react'
-// import { useRouter } from 'next/router'
+import { Clock, Info, Loader2Icon } from "lucide-react";
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { useParams, useRouter } from 'next/navigation'
 import { supabase } from '@/services/supabaseClient'
 import { toast } from 'sonner';
-// import { useRouter } from 'next/navigation'
-// import { useSession } from '@supabase/auth-helpers-react'
+import { AgentDataContext } from '@/context/AgentDataContext';
 
 function Agent() {
 
@@ -22,6 +18,8 @@ function Agent() {
   const [agentData, setAgentData] = useState()
   const [userName, setUserName] = useState()
   const [loading, setLoading] = useState(false)
+  const { agentInfo, setAgentInfo } = useContext(AgentDataContext)
+  const router = useRouter()
 
   useEffect(() => {
     agent_id && GetAgentDetails()
@@ -56,8 +54,24 @@ function Agent() {
     finally {
       setLoading(false)
     }
+  };
 
+  const onJoinAgent = async () => {
+    setLoading(true)
+    try {
+      let { data: Agents, error } = await supabase
+        .from('Agents')
+        .select('*')
+        .eq('agent_id', agent_id)
 
+      // console.log('Agents:', Agents[0])
+      setAgentInfo(Agents[0]);
+      router.push(`/agent/${agent_id}/start`)
+      // router.push('/agent/' + agent_id + '/start')
+    }
+    finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -75,7 +89,7 @@ function Agent() {
 
         <div className='w-full mb-6' >
           <h2>Enter your full name</h2>
-          <Input placeholder='John Doe' className='mt-3' onChange={(event)=>setUserName(event.target.value)} />
+          <Input placeholder='John Doe' className='mt-3' onChange={(event) => setUserName(event.target.value)} />
         </div>
 
         <div className="p-5 bg-accent rounded-sm mb-8 flex justify-center gap-4">
@@ -93,8 +107,11 @@ function Agent() {
         </div>
 
         <Button className="mb-10 w-1/2 font-bold"
-        disabled={loading || !userName}
-        >Join Now</Button>
+          disabled={loading || !userName}
+          onClick={() => onJoinAgent()}
+        >Join Now
+          <Loader2Icon className="animate-spin h-4 w-4 ml-2" hidden={!loading} />
+        </Button>
       </div>
     </div>
   )
