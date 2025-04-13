@@ -64,8 +64,13 @@ function Agent() {
         .select('*')
         .eq('agent_id', agent_id)
 
-      // console.log('Agents:', Agents[0])
-      setAgentInfo(Agents[0]);
+      console.log('Agents:', Agents[0])
+      setAgentInfo({
+        userName:userName,
+        agentData: Agents[0],
+        // questionList: Agents[0]?.questions,
+      });
+
       router.push(`/agent/${agent_id}/start`)
       // router.push('/agent/' + agent_id + '/start')
     }
