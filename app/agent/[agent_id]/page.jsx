@@ -89,7 +89,7 @@ function Agent() {
         <Image src={'/logo.png'} alt='logo' height={600} width={600}
           className='w-[50px] mb-5' />
         <h2>AI Agent powered voice platform</h2>
-        <Spline scene="https://prod.spline.design/8SP5oIdMk48a3IVu/scene.splinecode" className='w-[300px] h-[300px] mb-5' />
+        <Spline scene="https://prod.spline.design/8SP5oIdMk48a3IVu/scene.splinecode" className='w-[400px] h-[400px]' />
 
         {/* <Image src={'/swarm.png'} alt='swarm' height={2000} width={2000}
                   className='w-[300px] mb-5' /> */}
