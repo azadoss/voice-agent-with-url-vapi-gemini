@@ -10,7 +10,7 @@ function Provider({ children }) {
         const createNewUser = async () => {
             // Get current authenticated user
             const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
-            
+
             if (authError) {
                 console.error('Error fetching user:', authError.message);
                 return;
@@ -42,7 +42,7 @@ function Provider({ children }) {
                         .select(); // Added .select() to get the inserted record
 
                     if (insertError) throw insertError;
-                    
+
                     console.log('New user created successfully', newUser);
                     setUser(newUser[0]);
                     return;
@@ -58,30 +58,30 @@ function Provider({ children }) {
         };
 
         // Listen for auth state changes
-  const { data: authListener } = supabase.auth.onAuthStateChange(
-    async (event, session) => {
-      if (event === 'SIGNED_IN') {
-        await createNewUser();
-      }
-    }
-  );
+        const { data: authListener } = supabase.auth.onAuthStateChange(
+            async (event, session) => {
+                if (event === 'SIGNED_IN') {
+                    await createNewUser();
+                }
+                else if (event === "SIGNED_OUT") {
+                    setUser(null);
+                }
+            }
+        );
 
-  // Initial check on mount
-  createNewUser();
+        // Initial check on mount
+        createNewUser();
 
-  // Cleanup listener
-  return () => {
-    authListener.subscription.unsubscribe();
-  };
-  
-
+        // Cleanup listener
+        return () => {
+            authListener.subscription.unsubscribe();
+        };
     }, []);
 
     return (
-      
-    <UserDetailedContext.Provider value={{user, setUser}}>
-   <div> {children}    </div>
-    </UserDetailedContext.Provider>
+        <UserDetailedContext.Provider value={{ user, setUser }}>
+            <div>{children}</div>
+        </UserDetailedContext.Provider>
     )
 
 }
@@ -90,6 +90,6 @@ export default Provider;
 
 export const useUser = () => {
 
-    const context=useContext(UserDetailedContext);
+    const context = useContext(UserDetailedContext);
     return context;
 }
