@@ -22,7 +22,10 @@ function Agent() {
   const router = useRouter()
 
   useEffect(() => {
-    agent_id && GetAgentDetails()
+    console.log('Agent ID in useEffect:', agent_id);
+    if(agent_id) {
+       GetAgentDetails()
+    }
   }, [agent_id])
 
   const GetAgentDetails = async () => {
@@ -73,6 +76,7 @@ function Agent() {
 
       router.push(`/agent/${agent_id}/start`)
       // router.push('/agent/' + agent_id + '/start')
+      setLoading(false)
     }
     finally {
       setLoading(false)
