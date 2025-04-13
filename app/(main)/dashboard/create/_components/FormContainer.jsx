@@ -60,11 +60,11 @@ function FormContainer({ handleInputChange, GoToNext }) {
             <SelectValue placeholder="Select Duration" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="5">5 Minutes</SelectItem>
-            <SelectItem value="15">15 Minutes</SelectItem>
-            <SelectItem value="30">30 Minutes</SelectItem>
-            <SelectItem value="45">45 Minutes</SelectItem>
-            <SelectItem value="60">60 Minutes</SelectItem>
+            <SelectItem value="5 MinutesM">5 Minutes</SelectItem>
+            <SelectItem value="15 Minutes">15 Minutes</SelectItem>
+            <SelectItem value="30 Minutes">30 Minutes</SelectItem>
+            {/* <SelectItem value="45">45 Minutes</SelectItem>
+            <SelectItem value="60">60 Minutes</SelectItem> */}
           </SelectContent>
         </Select>
       </div>

@@ -1,5 +1,5 @@
 {
-  "name": "mascot",
+  "name": "monarch",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,6 +16,7 @@
     "@radix-ui/react-separator": "^1.1.3",
     "@radix-ui/react-slot": "^1.2.0",
     "@radix-ui/react-tooltip": "^1.2.0",
+    "@splinetool/react-spline": "^4.0.0",
     "@supabase/supabase-js": "^2.49.4",
     "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",

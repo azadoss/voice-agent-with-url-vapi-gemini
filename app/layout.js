@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Mascot",
-  description: "Mascot is a platform for creating and sharing mascots.",
+  title: "Monarch",
+  description: "Monarch is a platform for creating and sharing agents.",
 };
 
 export default function RootLayout({ children }) {
@@ -27,8 +27,8 @@ export default function RootLayout({ children }) {
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          // enableSystem
           enableColorScheme
         >
         <Provider>{children}

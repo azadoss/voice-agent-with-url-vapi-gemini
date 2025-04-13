@@ -38,12 +38,12 @@ function Login() {
           <Image
             src="/logo.png"
             alt="logo"
-            width={80}
-            height={80}
-            className="w-20 h-20"
+            width={600}
+            height={600}
+            className="w-5 h-5"
           />
           <h2 className="text-2xl font-bold mt-4 text-center">
-            Welcome to Mascot
+            Welcome to Monarch!
           </h2>
           <p className="text-sm text-gray-500 text-center">
             Please log in to continue

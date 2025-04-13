@@ -35,9 +35,9 @@ export function AppSidebar() {
         <Image
           src="/logo.png"
           alt="logo"
-          width={32}
-          height={32}
-          className="w-8 h-8"
+          width={600}
+          height={600}
+          className="w-[28px] mb-5"
         />
         <Button className={"w-full mt-6"}>
           {" "}
