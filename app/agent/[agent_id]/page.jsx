@@ -17,6 +17,7 @@ function Agent() {
   // const { agent_id } = useRouter().query
   const [agentData, setAgentData] = useState()
   const [userName, setUserName] = useState()
+  const [userEmail, setUserEmail] = useState()
   const [loading, setLoading] = useState(false)
   const { agentInfo, setAgentInfo } = useContext(AgentDataContext)
   const router = useRouter()
@@ -67,9 +68,10 @@ function Agent() {
         .select('*')
         .eq('agent_id', agent_id)
 
-      console.log('Agents:', Agents[0])
+      // console.log('Agents:', Agents[0])
       setAgentInfo({
         userName:userName,
+        userEmail:userEmail,
         agentData: Agents[0],
         // questionList: Agents[0]?.questions,
       });
@@ -97,23 +99,28 @@ function Agent() {
         <h2 className="flex gap-2 items-center text-muted-foreground mt-5"><Clock className="h-4 w-4" />{agentData?.duration}</h2>
 
         <div className='w-full mb-6' >
-          <h2>Enter your full name</h2>
-          <Input placeholder='John Doe' className='mt-3' onChange={(event) => setUserName(event.target.value)} />
+          <h2>Enter your name</h2>
+          <Input placeholder='' className='mt-3' onChange={(event) => setUserName(event.target.value)} />
         </div>
 
-        <div className="p-5 bg-accent rounded-sm mb-8 flex justify-center gap-4">
+        <div className='w-full mb-6' >
+          <h2>Enter your email</h2>
+          <Input placeholder='' className='mt-3' onChange={(event) => setUserEmail(event.target.value)} />
+        </div>
+
+        {/* <div className="p-5 bg-accent rounded-sm mb-8 flex justify-center gap-4">
           <Info className="text-primary" />
-          <div>
-            <h2 className="font-bold">
+          <div className='flex flex-col p-3'>
+            <h2 className="">
               Before you begin
             </h2>
             <ul className="list-disc mt-2">
-              <li className="text-sm text-primary">Ensure you have a stable internet connection</li>
-              <li className="text-sm text-primary">Ensure you have a stable internet connection</li>
-              <li className="text-sm text-primary">Ensure you have a stable internet connection</li>
+              <li className="text-sm text-muted-foreground">Ensure you have a stable internet connection</li>
+              <li className="text-sm text-muted-foreground">Ensure you have a stable internet connection</li>
+              <li className="text-sm text-muted-foreground">Ensure you have a stable internet connection</li>
             </ul>
           </div>
-        </div>
+        </div> */}
 
         <Button className="mb-10 w-1/2 font-bold"
           disabled={loading || !userName}

@@ -3,12 +3,13 @@ import { NextResponse } from "next/server"; // Import NextResponse
 import { LLM_MODEL, QUESTIONS_PROMPT } from "@/services/Constants";
 
 export async function POST(req) {
+  
   try { // It's often better to wrap the whole thing, including req.json()
     const { title, description, duration, type } = await req.json();
 
     // Basic validation (optional but recommended)
     if (!title || !description || !duration || !type) {
-        return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
     const FINAL_PROMPT = QUESTIONS_PROMPT.replace("{{title}}", title)
@@ -27,18 +28,18 @@ export async function POST(req) {
       model: LLM_MODEL,
       messages: [{ role: "user", content: FINAL_PROMPT }],
 
-      response_format:'json',
+      response_format: 'json',
     });
 
     // Check if the response is valid before accessing properties
     if (completion && completion.choices && completion.choices.length > 0 && completion.choices[0].message) {
-        console.log("OpenRouterAI Response Message:", completion.choices[0].message);
-        // --- Return the successful response directly from the try block ---
-        return NextResponse.json(completion.choices[0].message);
+      console.log("OpenRouterAI Response Message:", completion.choices[0].message);
+      // --- Return the successful response directly from the try block ---
+      return NextResponse.json(completion.choices[0].message);
     } else {
-        // Handle cases where OpenRouterAI might return an unexpected structure or no choices
-        console.error("Unexpected response structure from OpenRouterAI:", completion);
-        return NextResponse.json({ error: "Failed to get a valid response from LLM" }, { status: 502 }); // 502 Bad Gateway might be appropriate
+      // Handle cases where OpenRouterAI might return an unexpected structure or no choices
+      console.error("Unexpected response structure from OpenRouterAI:", completion);
+      return NextResponse.json({ error: "Failed to get a valid response from LLM" }, { status: 502 }); // 502 Bad Gateway might be appropriate
     }
 
   } catch (error) {
@@ -51,11 +52,11 @@ export async function POST(req) {
 
     // Check if it's an OpenRouterAI API error to potentially provide more specific feedback
     if (error instanceof OpenAI.APIError) {
-         errorMessage = `LLM API Error: ${error.status} ${error.name}`;
-         statusCode = error.status || 500;
+      errorMessage = `LLM API Error: ${error.status} ${error.name}`;
+      statusCode = error.status || 500;
     } else if (error.name === 'SyntaxError') { // Handle potential JSON parsing errors
-        errorMessage = "Invalid request format.";
-        statusCode = 400;
+      errorMessage = "Invalid request format.";
+      statusCode = 400;
     }
 
     return NextResponse.json({ error: errorMessage }, { status: statusCode });

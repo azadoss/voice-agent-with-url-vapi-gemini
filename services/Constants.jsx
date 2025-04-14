@@ -108,7 +108,7 @@ export const AgentType = [
 ];
 
 // export const LLM_MODEL = "google/gemini-2.5-pro-exp-03-25:free";
-export const LLM_MODEL = "google/gemini-2.0-flash-exp:free";
+export const LLM_MODEL = "google/gemini-2.0-flash-thinking-exp:free";
 
 export const QUESTIONS_PROMPT = `You are an expert recruiter.
 Based on the following inputs, generate a well-structured list of high-quality interview questions:
@@ -203,3 +203,24 @@ Strictly return ONLY a valid JSON object. The value of this key must be an array
 # GOAL:
 Produce a well-structured, relevant, and time-optimized set of interview questions for the specified job role {{title}} and interview parameters, ready for use by an AI voice interviewer.
 `
+
+export const FEEDBACK_PROMPT = `
+{{conversation}}
+Depends on this Interview Conversation between assitant and user,
+Give me feedback for user interview. Give me rating out of 10 for technical Skills,
+Communication, Problem Solving, Experince. Also give me summery in 3 lines
+about the interview and one line to let me know whether is recommanded
+for hire or not with msg. Give me response in JSON format:
+{
+	feedback:{
+		rating:{
+		techicalSkills:5,
+		communication:6,
+		problemSolving:4,
+		experince:7
+		},
+		summery:<in 3 Line>,
+		Recommendation:'',
+		RecommendationMsg:''
+	}
+}`

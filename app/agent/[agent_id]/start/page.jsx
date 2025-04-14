@@ -1,19 +1,27 @@
 'use client'
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Timer, Mic, X } from 'lucide-react';
 import { AgentDataContext } from '@/context/AgentDataContext';
 import Spline from '@splinetool/react-spline';
 import Vapi from '@vapi-ai/web';
 import { toast } from 'sonner';
+import axios from 'axios';
+import { supabase } from '@/services/supabaseClient';
+import { useParams, useRouter } from 'next/navigation';
 
 function StartAgent() {
     const { agentInfo, setAgentInfo } = useContext(AgentDataContext);
     const [activeUser, setActiveUser] = useState()
+    const { agent_id } = useParams()
+    const router = useRouter()
 
-    const [vapiInstance, setVapiInstance] = useState(null);
+    const [vapiInstance, setVapiInstance] = useState();
     const [callStatus, setCallStatus] = useState('idle'); // idle, starting, started, speech, listening, stopping, ended, error
-    const [lastError, setLastError] = useState(null);
+    const [conversation, setConversation] = useState();
+    const [transcript, setTranscript] = useState();
+    const conversationRef = useRef();
+    const [lastError, setLastError] = useState();
 
     // --- Initialize Vapi SDK Instance ---
     useEffect(() => {
@@ -54,8 +62,27 @@ function StartAgent() {
                 console.log('Vapi Event: call-end');
                 setCallStatus('ended');
                 toast.success('Call ended!');
+                GenerateFeedback();
                 setAgentInfo(null); // Reset agent info on call end
             });
+
+            // Various assistant messages can come back (like function calls, transcripts, etc)
+            vapi.on("message", (message) => {
+                if (message?.conversation) {
+                    console.log('Conversation Message:', message.conversation);
+                    setConversation(message.conversation);
+                    // Also update the ref immediately
+                    conversationRef.current = message.conversation;
+                } else {
+                    console.warn("Received empty conversation in message:", message);
+                }
+                setTranscript(message?.transcript);
+            });
+
+
+            // Gracefully terminate the call if needed
+            // say(message: string, endCallAfterSpoken?: boolean)
+            // vapi.say("Our time's up, goodbye!", true)
 
             vapi.on('error', (error) => {
                 console.error('Vapi Event: error', error);
@@ -70,27 +97,65 @@ function StartAgent() {
             setLastError({ errorMsg: "SDK Initialization Failed.", error: initError });
             setCallStatus('error');
         }
-
-        // --- Cleanup Function ---
-        return () => {
-            console.log("Cleaning up Vapi instance...");
-            if (vapiInstance) {
-                vapiInstance.stop();
-            }
-            setVapiInstance(null);
-            setCallStatus('idle');
-            console.log("Vapi cleanup complete.");
-        };
     }, []);
+
+    // Generating Call Feedback
+    const GenerateFeedback = async () => {
+
+        // Use the persisted conversation data if state is empty.
+        const convoToSend = conversation || conversationRef.current;
+        console.log("Conversation being sent:", convoToSend);
+
+        if (!convoToSend) {
+            console.error("Cannot generate feedback: conversation is empty.");
+            return;
+        }
+
+        const result = await axios.post('/api/ai-feedback', {
+            conversation: convoToSend
+        });
+
+        console.log(result?.data)
+        const Content = result.data.content;
+        const FINAL_CONTENT = Content.replace('```json', '').replace('```', '')
+        console.log(FINAL_CONTENT)
+
+        // Save to Database
+        const { data, error } = await supabase
+            .from('Conversations')
+            .insert([
+                {
+                    userName: agentInfo?.userName,
+                    userEmail: agentInfo?.userEmail,
+                    agent_id: agent_id,
+                    feedback: JSON.parse(FINAL_CONTENT),
+                    recommended: false
+                },
+
+            ])
+            .select()
+        console.log('Conversation Feedback:', data)
+        // Navigaing after the interview
+        router.replace('/agent/'+agent_id+'/review')
+
+
+
+    }
 
     // --- Effect to Start the Call ---
     useEffect(() => {
+
         if (vapiInstance && agentInfo && callStatus === 'idle') {
             startCall();
         } else {
             console.log(`Call not starting: vapiInstance=${!!vapiInstance}, agentInfo=${!!agentInfo}, callStatus=${callStatus}`);
         }
     }, [agentInfo, vapiInstance, callStatus]);
+
+    // Add this effect to keep the ref updated
+    useEffect(() => {
+        conversationRef.current = conversation;
+    }, [conversation]);
 
     // --- Function to Start the Call ---
     const startCall = async () => {
@@ -242,8 +307,8 @@ Your goal is to ask the candidate the provided interview questions clearly and a
                         onClick={endCall}
                         disabled={!isCallActive && callStatus !== 'starting'}
                         className={`h-12 w-12 p-3 rounded-full transition-colors duration-200 ${isCallActive || callStatus === 'starting'
-                                ? 'bg-red-500 text-white cursor-pointer hover:bg-red-600'
-                                : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                            ? 'bg-red-500 text-white cursor-pointer hover:bg-red-600'
+                            : 'bg-gray-300 text-gray-600 cursor-not-allowed'
                             }`}
                         aria-label="End Call"
                     >
