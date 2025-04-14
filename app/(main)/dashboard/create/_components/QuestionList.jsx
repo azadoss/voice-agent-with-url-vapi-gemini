@@ -27,7 +27,7 @@ function QuestionList({ formData, onCreateLink }) {
       const response = await axios.post("/api/llm", {
         ...formData,
       });
-      console.log("Generated QuestionList response", response.data.content);
+      // console.log("Generated QuestionList response", response.data.content);
       // const questionList = response.data.content.split("\n").map(question => question.trim());
       const Content = response.data.content;
       const FormatedContent = Content.replace(/```json/g, "").replace(
@@ -46,13 +46,17 @@ function QuestionList({ formData, onCreateLink }) {
   const onFinish = async () => {
     setSaveLoading(true);
     const agent_id = uuidv4();
+
+    console.log("User object inside onFinish:", user); // Add this line
+    console.log("User Email before insert:", user?.email);
+
     const { data, error } = await supabase
       .from("Agents")
       .insert([
         {
           ...formData,
           questionList: questionList,
-          userEmail: user?.email,
+          userEmail: user?.user.email,
           agent_id: agent_id,
         }
       ])
@@ -83,9 +87,12 @@ function QuestionList({ formData, onCreateLink }) {
       )}
 
       <div className="flex justify-end mt-8">
-        <Button onClick={() => onFinish()} disabled={saveLoading}>
-          {saveLoading && <Loader2Icon className="animate-spin mr-2" />}
-          Next</Button>
+        {questionList?.length > 0 && !loading && (
+          <Button onClick={() => onFinish()} disabled={saveLoading}>
+            {saveLoading && <Loader2Icon className="animate-spin mr-2" />}
+            Next
+          </Button>
+        )}
       </div>
     </div>
   );
