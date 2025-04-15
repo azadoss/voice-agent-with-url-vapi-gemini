@@ -149,3 +149,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.col-gap-3 {
+  column-gap: 0.75rem;
+}
+
+.align-icon {
+  align-self: center; /* Or try 'flex-start' or 'flex-end' with padding adjustments */
+}

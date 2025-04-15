@@ -36,9 +36,9 @@ export default function LibraryPage() {
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">Agents Library</h1>
+    <div className="max-w-5xl mx-auto">
+      <div className="flex justify-between items-center mt-10">
+      <h2 className='text-2xl mb-5'>Agents library</h2>
         <CreateOptions />
         {/* <Button>
           <PlusIcon className="mr-2 h-4 w-4" />

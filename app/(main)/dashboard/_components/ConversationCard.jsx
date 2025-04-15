@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Link2, Send } from 'lucide-react'
 import moment from 'moment'
+import Link from 'next/link'
 import React from 'react'
 import { toast } from 'sonner'
 
@@ -44,7 +45,8 @@ function ConversationCard({ agents, viewDetail=false }) {
                 <Button variant='outline' onClick={onShare}><Send />Share</Button> {/* Changed icon and onClick */}
             </div>
             :
-            <Button variant='outline' className='mt-5 w-full'>See details</Button>
+            <Link href={'/active/'+agents?.agent_id+'/details'}>
+            <Button variant='outline' className='mt-5 w-full'>See details</Button></Link>
             }
         </div>
     )
