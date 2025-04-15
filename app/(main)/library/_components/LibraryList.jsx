@@ -45,7 +45,7 @@ function LibraryList({ agents }) {
                     </div>
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                    {moment(agents?.created_at).format('MMM D, YYYY h:mm A')}
+                    {moment(agents?.created_at).format('LLL')}
                 </p>
             </div>
 

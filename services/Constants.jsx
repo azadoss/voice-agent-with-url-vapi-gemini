@@ -14,6 +14,10 @@ import {
   Code2Icon,
   User2Icon,
   UserRoundSearch,
+  Video,
+  ListCheck,
+  StretchHorizontal,
+  WalletMinimal,
 } from "lucide-react";
 
 export const SideBarOptions = [
@@ -23,18 +27,18 @@ export const SideBarOptions = [
     path: "/dashboard",
   },
   {
-    label: "Scheduled",
-    icon: Calendar,
-    path: "/scheduled",
+    label: "All active",
+    icon: ListCheck,
+    path: "/active",
   },
   {
     label: "Library",
-    icon: Logs,
+    icon: StretchHorizontal,
     path: "/library",
   },
   {
     label: "Billing",
-    icon: CreditCard,
+    icon: WalletMinimal,
     path: "/billing",
   },
   {

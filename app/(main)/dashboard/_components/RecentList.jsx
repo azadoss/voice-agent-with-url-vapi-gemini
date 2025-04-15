@@ -22,31 +22,32 @@ function RecentList() {
       .from('Agents')
       .select('*')
       .eq('userEmail', user?.email)
-      .order('created_at', {ascending: false})
+      .order('created_at', { ascending: false })
       .limit(3) // limited to six recent records from DB
 
-    console.log('Agents:',Agents)
+    console.log('Agents:', Agents)
     setRecentList(Agents)
   }
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mt-10 mb-5">Recent List</h2>
-        {recentList?.length == 0 && (
-         <div className="text-center py-12 bg-muted rounded-lg">
-         <p className="text-muted-foreground">No recent yet</p>
-         {/* <CreateOptions /> */}
-       </div>
-        )}
+      <h2 className="text-2xl mt-10 mb-5">Recent List</h2>
+      
+      {recentList?.length == 0 && (
+        <div className="text-center py-12 bg-muted rounded-lg">
+          <p className="text-muted-foreground">No recent yet</p>
+          {/* <CreateOptions /> */}
+        </div>
+      )}
 
-        {recentList&&
+      {recentList &&
         <div className="grid grid-cols-2 xl:grid-cols-3  gap-5">
-          {recentList.map((agent,index)=>(
+          {recentList.map((agent, index) => (
             <ConversationCard agents={agent} key={index} />
           ))}
         </div>
 
-        }
+      }
 
     </div>
   );
