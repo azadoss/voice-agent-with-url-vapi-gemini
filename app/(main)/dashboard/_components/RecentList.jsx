@@ -6,6 +6,7 @@ import { PlusIcon } from "lucide-react";
 import { supabase } from "@/services/supabaseClient";
 import ConversationCard from './ConversationCard'
 import { toast } from "sonner";
+import CreateOptions from "./CreateOptions";
 
 function RecentList() {
   const [recentList, setRecentList] = useState([]);
@@ -32,13 +33,11 @@ function RecentList() {
     <div>
       <h2 className="text-2xl font-bold mt-10 mb-5">Recent List</h2>
         {recentList?.length == 0 && (
-          <div className="flex flex-col items-center justify-center gap-5 bg-muted p-8 rounded-sm">
-            <h2 className="text-lg font-semibold">No recent list</h2>
-            <Button>
-              <PlusIcon />
-              Create New Interview
-            </Button>
-          </div>)}
+         <div className="text-center py-12 bg-muted rounded-lg">
+         <p className="text-muted-foreground">No recent yet</p>
+         {/* <CreateOptions /> */}
+       </div>
+        )}
 
         {recentList&&
         <div className="grid grid-cols-2 xl:grid-cols-3  gap-5">

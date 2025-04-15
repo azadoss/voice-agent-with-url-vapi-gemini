@@ -7,8 +7,11 @@ function Dashboard() {
   return (
     <div>
       {/* <WelcomeContainer/> */}
-      {/* <h2 className='my-3 text-2xl font-bold'>Dashboard</h2> */}
+      <div className="mt-6 flex items-center justify-between flex-wrap">
+
+      <h2 className='my-3 text-2xl font-bold'>Dashboard</h2>
       <CreateOptions />
+      </div>
       <RecentList />
     </div>
   );

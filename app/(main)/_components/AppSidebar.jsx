@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { usePathname } from "next/navigation";
+import CreateOptions from "../dashboard/_components/CreateOptions";
 
 export function AppSidebar() {
   const path = usePathname();
@@ -39,11 +40,12 @@ export function AppSidebar() {
           height={600}
           className="w-[28px] mb-5"
         />
-        <Button className={"w-full mt-6"}>
+        {/* <Button className={"w-full mt-6"}>
           {" "}
           <Plus />
           Create New Dialog
-        </Button>
+        </Button> */}
+        {/* <CreateOptions /> */}
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

@@ -4,6 +4,8 @@ import { useUser } from "@/app/provider";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { supabase } from "@/services/supabaseClient";
+import CreateOptions from "../dashboard/_components/CreateOptions";
+
 import LibraryList from "./_components/LibraryList";
 
 export default function LibraryPage() {
@@ -36,11 +38,12 @@ export default function LibraryPage() {
   return (
     <div className="p-6 max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">Interview Agents</h1>
-        <Button>
+        <h1 className="text-2xl font-bold">Agents Library</h1>
+        <CreateOptions />
+        {/* <Button>
           <PlusIcon className="mr-2 h-4 w-4" />
           Create New Agent
-        </Button>
+        </Button> */}
       </div>
 
       {agents.length === 0 ? (
