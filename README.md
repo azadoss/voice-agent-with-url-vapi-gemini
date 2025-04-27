@@ -7,7 +7,7 @@ This is a full-stack Software-as-a-Service (SaaS) application that functions as 
 * **AI  Voice Agent:** Core functionality for conducting voice-based recruitment tasks.
 * **User Authentication:** Secure user login and management using Supabase Google Sign-In.
 * **Database Integration:** Utilizes Supabase for efficient data storage and management, including saving user information.
-* **Credit System:** Implemented a credit-based system to manage user usage of the service.
+* **Credit System:** Implemented a credit-based system to manage user usage of the service. [🚧 WIP]
 * **Responsive Design:** Built with shared components, such as a sidebar, for a consistent and user-friendly interface across different devices.
 
 ## Technology Stack
